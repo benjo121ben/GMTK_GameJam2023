@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9583d93a3f9fa6b428bc1e1cf29cd9df, type: 3}
+  m_Name: Bruiser
+  m_EditorClassIdentifier: 
+  speed: 3
+  initiative: 3
+  range: 2
+  damage: 3
+  health: 10
+  rangeType: 2
+  sprite: {fileID: 3625043607559282579, guid: 3bd1a8b59a15d794c8e254d245dec70e, type: 3}

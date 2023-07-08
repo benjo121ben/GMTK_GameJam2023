@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9583d93a3f9fa6b428bc1e1cf29cd9df, type: 3}
+  m_Name: Ranger
+  m_EditorClassIdentifier: 
+  speed: 4
+  initiative: 2
+  range: 4
+  damage: 2
+  health: 7
+  rangeType: 0
+  sprite: {fileID: -2413806693520163455, guid: 02f1134cc0df1ca40bcd47931feeabc7, type: 3}

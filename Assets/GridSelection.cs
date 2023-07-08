@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class GridSelection : MonoBehaviour
 {
-    Grid unitGrid;
+    UnitGrid unitGrid;
     [SerializeField] Camera _mainCamera;
     // Start is called before the first frame update
     void Start()
     {
-        unitGrid = GetComponent<Grid>();
+        unitGrid = GetComponent<UnitGrid>();
     }
 
     // Update is called once per frame
@@ -19,8 +19,13 @@ public class GridSelection : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-            var point = ray.GetPoint((unitGrid.transform.position.z - ray.origin.z) / ray.direction.z);
-            Debug.Log(unitGrid.GetNodeFromWorldPos(point));
+            var point = FloorPos(ray.GetPoint((unitGrid.transform.position.z - ray.origin.z) / ray.direction.z));
+            unitGrid.setAttackSelection(point, true);
         }
+    }
+    
+    public static Vector2Int FloorPos(Vector3 pos)
+    {
+        return new Vector2Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y));
     }
 }

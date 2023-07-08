@@ -10,14 +10,14 @@ public class SelectionUI : MonoBehaviour
 
     public Axis axis = Axis.X;
     [SerializeField] Camera _mainCam;
-    Grid grid;
+    UnitGrid grid;
     SpriteRenderer _srenderer;
     private bool ortographic = false;
 
     private void Start()
     {
         _srenderer = GetComponent<SpriteRenderer>();
-        grid = GetComponentInParent<Grid>();
+        grid = GetComponentInParent<UnitGrid>();
         if (_mainCam == null)
         {
             throw new Exception($"{gameObject.name} does not have a camera assigned in UpdatePositionOnPlane");
@@ -33,11 +33,13 @@ public class SelectionUI : MonoBehaviour
     void Update()
     {
         Vector3 pos = getPosOnPlane();
-        if (grid.GetNodeFromWorldPos(pos) > -1)
+        var node = grid.GetNodeFromWorldPos(pos);
+        if (node != null)
         {
-            var gridPos = grid.worldPosToGridPos(pos);
+            var gridPos = GameGrid.FloorPos(pos);
             transform.position = new Vector3(gridPos.x + 0.5f, gridPos.y + 0.5f, pos.z);
             _srenderer.enabled = true;
+            
         }
         else
         {
