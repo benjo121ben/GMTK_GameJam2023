@@ -20,7 +20,13 @@ public class GridSelection : MonoBehaviour
         {
             var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
             var point = FloorPos(ray.GetPoint((unitGrid.transform.position.z - ray.origin.z) / ray.direction.z));
-            unitGrid.setAttackSelection(point, true);
+            unitGrid.setMoveSelection(point);
+        }
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+            var point = FloorPos(ray.GetPoint((unitGrid.transform.position.z - ray.origin.z) / ray.direction.z));
+            unitGrid.setAttackSelection(point);
         }
     }
     

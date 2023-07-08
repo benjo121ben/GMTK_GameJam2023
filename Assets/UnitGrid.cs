@@ -5,11 +5,16 @@ using UnityEngine;
 
 public class UnitGrid : MonoBehaviour
 {
+    enum selectionType{none, move, attack}
+
+    private selectionType selected = selectionType.none;
+    private Vector2Int selectedPos = new Vector2Int(-1, -1);
     private GameGrid _gameGrid;
     [SerializeField] MapSetup _mapSetup;
     [SerializeField] GameObject backGrTemplate;
     [SerializeField] GameObject unitTemplate;
     [SerializeField] Vector2Int size = new Vector2Int(1,1);
+    [SerializeField] List<Unit> units = new List<Unit>();
 
     // Start is called before the first frame update
     public void Start()
@@ -35,12 +40,17 @@ public class UnitGrid : MonoBehaviour
             }
         }
 
+        int unitIndex = 0;
         foreach (var setupData in _mapSetup.Positions)
         {
-            var unit = Instantiate(unitTemplate);
-            unit.transform.parent = transform;
-            unit.transform.localPosition = new Vector3(setupData.position.x, setupData.position.y, 0);
-            unit.GetComponent<Unit>().setUnitData(setupData.unitData);
+            var unitObj = Instantiate(unitTemplate);
+            unitObj.transform.parent = transform;
+            unitObj.transform.localPosition = new Vector3(setupData.position.x, setupData.position.y, 0);
+            var unitComponent = unitObj.GetComponent<Unit>();
+            unitComponent.setUnitData(setupData.unitData);
+            _gameGrid.GetNode(setupData.position).value = unitIndex;
+            units.Add(unitComponent);
+            unitIndex++;
         }
         
     }
@@ -59,13 +69,53 @@ public class UnitGrid : MonoBehaviour
         return _gameGrid.GetNode(coords);
     }
 
-    public void setAttackSelection(Vector2Int pos, bool enabled)
+    public void setAttackSelection(Vector2Int pos)
     {
         var node = _gameGrid.GetNode(pos);
         _gameGrid.DisableAllRenderers();
         if (node != null)
         {
-            node.renderer.enabled = enabled;
+            if (selected == selectionType.none && node.value > -1)
+            {
+                node.renderer.enabled = true;
+                selected = selectionType.attack;
+                return;
+            }
+            else if(selected == selectionType.attack && node.value > -1)
+            {
+                //attack code
+                Debug.Log("ATTACKED " + pos);
+                selected = selectionType.none;
+                return;
+            }
         }
+        selected = selectionType.none;
+    }
+    
+    public void setMoveSelection(Vector2Int pos)
+    {
+        var node = _gameGrid.GetNode(pos);
+        _gameGrid.DisableAllRenderers();
+        if (node != null)
+        {
+            if (selected == selectionType.none && node.value > -1)
+            {
+                node.renderer.enabled = true;
+                selectedPos = pos;
+                selected = selectionType.move;
+                return;
+            }
+            else if(selected == selectionType.move && node.value == -1)
+            {
+                //movement code
+                var oldNode = _gameGrid.GetNode(selectedPos);
+                node.value = oldNode.value;
+                oldNode.value = -1;
+                units[node.value].move(pos);
+                selected = selectionType.none;
+                return;
+            }
+        }
+        selected = selectionType.none;
     }
 }

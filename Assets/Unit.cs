@@ -28,6 +28,7 @@ public class Unit : MonoBehaviour
     
     public void move(Vector2 pos)
     {
-        transform.position = new Vector3(pos.x, pos.y, transform.position.z);
+        Debug.Log("moveCalled");
+        transform.localPosition = new Vector3(pos.x, pos.y, transform.localPosition.z);
     }
 }
